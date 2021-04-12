@@ -72,11 +72,11 @@ init.c代码已置于linux/src目录下。
 
 ## 5、思考题
 
-1、请简要解释 `Linux` 与 `Ubuntu`、`Debian`、`ArchLinux`、`Fedora` 等之间的关系和区别。
+**1、请简要解释 `Linux` 与 `Ubuntu`、`Debian`、`ArchLinux`、`Fedora` 等之间的关系和区别。**
 
 ​		Linux严格来说应该称为Linux内核，由于它过于精简，因此并不算是一个完整的操作系统。而Ubuntu、Debian、ArchLinux、Fedora等操作系统，都是基于某一个Linux内核构造出来的操作系统，通常被称为Linux发行版。一个典型的Linux发行版除了Linux内核以外，通常还会包括一系列的GNU工具和库，一些附带的软件，说明文档，一个桌面系统，一个窗口管理器和一个桌面环境。不同的发行版之间除了Linux内核以外的其他部分可能都不一样，但是相同的是他们都有着相同的核心，即Linux内核。
 
-3、简述树莓派启动的各个阶段。（hint：`bootcode.bin`、`start.elf`、`cmdline.txt` 等的作用）
+**3、简述树莓派启动的各个阶段。（hint：`bootcode.bin`、`start.elf`、`cmdline.txt` 等的作用）**
 
 ​		树莓派的启动大致可以分为3步：
 
@@ -86,10 +86,20 @@ init.c代码已置于linux/src目录下。
 
 ​		3、start.etl先把ram空间划分为两部分：CPU访问空间和GPU访问空间，然后再从第一个分区加载树莓派配置文件config.txt。然后再从第一个分区加载cmdline.txt。cmdline.txt保存的是启动kernel的参数。start.efl最后再将kernel.img，ramdisk，dtb加载到内存的预定地址，然后向CPU发出重启信号，CPU便可以从内存中执行kernel的代码，进入软件定义的系统启动流程。
 
-5、为什么在 `x86` 环境下装了 `qemu-user` 之后可以直接运行 `arm64` 的 `busybox`，其中的具体执行过程是怎样的？`qemu-user` 和 `qemu-system` 的主要区别是什么？
+**5、为什么在 `x86` 环境下装了 `qemu-user` 之后可以直接运行 `arm64` 的 `busybox`，其中的具体执行过程是怎样的？`qemu-user` 和 `qemu-system` 的主要区别是什么？**
 
 ​		Qemu是一个开源的，通过纯软件来实现虚拟化的模拟器。qemu-user也即user mode模式，它的工作原理是利用代码动态翻译机制去执行不同主机架构的代码。也就是说，它可以将arm架构下的程序执行时的每一条指令动态翻译成x86架构下的指令，从而使得即使在x86的环境下也能使用arm64的busybox。
 
 ​		qemu-user和qemu-system的区别即user mode和system mode的区别，user mode的执行方式如上所述，是对程序的每一条指令进行动态翻译。而system mode则是去模拟整个电脑系统，利用其他VMM使用硬件提供的虚拟化支持，创建接近于主机性能的全功能虚拟机。简单来说，user mode是翻译功能，使某个程序能在其他架构上运行，而system mode则是直接创建了一个小型的arm模拟环境，使程序能在上面很好的运行。
 
-6、查阅 `PXE` 的资料，用自己的话描述它启动的过程。
+**6、查阅 `PXE` 的资料，用自己的话描述它启动的过程。**
+
+​		PXE即Pre-boot Execution Environment，是一种能够让计算机通过网络启动而不需使用本地操作系统的协议。协议分为client和server两端，PXE client在client网卡的ROM中，当client计算机引导时，将经历以下步骤：
+
+​		1、PXE client 向DHCP Server请求IP地址，DHCP Server判断合法后返回IP地址和bootstrap的位置（一般在一台TFTP服务器上）。
+
+​		2、PXE client 向TFTP Server 请求传输bootstrap，接收完成后执行bootstrap。
+
+​		3、PXE client 向TFTP Server 请求传输配置文件，接收后读取配置文件并使用户根据需要进行选择合适的Linux内核和根文件系统。
+
+​		4、PXE client 向TFTP Server 分别请求用户选择的Linux内核和Linux根文件系统，然后带参数启动Linux内核，完成PXE启动过程。
