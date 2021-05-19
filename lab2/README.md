@@ -232,3 +232,148 @@ extern fn handle_sigint(_signal: c_int) {
 ```
 
 ## 3、strace工具
+
+我们使用strace工具追踪ls命令
+
+```bash
+strace ls
+```
+
+执行上述命令后的，显示的内容如下所示：
+
+```bash
+execve("/usr/bin/ls", ["ls"], 0x7ffce82c0c50 /* 51 vars */) = 0
+brk(NULL)                               = 0x564162ef4000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7fff7c1c4320) = -1 EINVAL (无效的参数)
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (没有那个文件或目录)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=70363, ...}) = 0
+mmap(NULL, 70363, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f23808cf000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0@p\0\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0644, st_size=163200, ...}) = 0
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f23808cd000
+mmap(NULL, 174600, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f23808a2000
+mprotect(0x7f23808a8000, 135168, PROT_NONE) = 0
+mmap(0x7f23808a8000, 102400, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6000) = 0x7f23808a8000
+mmap(0x7f23808c1000, 28672, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1f000) = 0x7f23808c1000
+mmap(0x7f23808c9000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x26000) = 0x7f23808c9000
+mmap(0x7f23808cb000, 6664, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f23808cb000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\360q\2\0\0\0\0\0"..., 832) = 832
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+pread64(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0", 32, 848) = 32
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\t\233\222%\274\260\320\31\331\326\10\204\276X>\263"..., 68, 880) = 68
+fstat(3, {st_mode=S_IFREG|0755, st_size=2029224, ...}) = 0
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+pread64(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0", 32, 848) = 32
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\t\233\222%\274\260\320\31\331\326\10\204\276X>\263"..., 68, 880) = 68
+mmap(NULL, 2036952, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f23806b0000
+mprotect(0x7f23806d5000, 1847296, PROT_NONE) = 0
+mmap(0x7f23806d5000, 1540096, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x25000) = 0x7f23806d5000
+mmap(0x7f238084d000, 303104, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x19d000) = 0x7f238084d000
+mmap(0x7f2380898000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1e7000) = 0x7f2380898000
+mmap(0x7f238089e000, 13528, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f238089e000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpcre2-8.so.0", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\340\"\0\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0644, st_size=584392, ...}) = 0
+mmap(NULL, 586536, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f2380620000
+mmap(0x7f2380622000, 409600, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7f2380622000
+mmap(0x7f2380686000, 163840, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x66000) = 0x7f2380686000
+mmap(0x7f23806ae000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x8d000) = 0x7f23806ae000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libdl.so.2", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0 \22\0\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0644, st_size=18816, ...}) = 0
+mmap(NULL, 20752, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f238061a000
+mmap(0x7f238061b000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1000) = 0x7f238061b000
+mmap(0x7f238061d000, 4096, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3000) = 0x7f238061d000
+mmap(0x7f238061e000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3000) = 0x7f238061e000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpthread.so.0", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\220\201\0\0\0\0\0\0"..., 832) = 832
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\345Ga\367\265T\320\374\301V)Yf]\223\337"..., 68, 824) = 68
+fstat(3, {st_mode=S_IFREG|0755, st_size=157224, ...}) = 0
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\345Ga\367\265T\320\374\301V)Yf]\223\337"..., 68, 824) = 68
+mmap(NULL, 140408, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f23805f7000
+mmap(0x7f23805fe000, 69632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x7000) = 0x7f23805fe000
+mmap(0x7f238060f000, 20480, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x18000) = 0x7f238060f000
+mmap(0x7f2380614000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1c000) = 0x7f2380614000
+mmap(0x7f2380616000, 13432, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f2380616000
+close(3)                                = 0
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f23805f5000
+arch_prctl(ARCH_SET_FS, 0x7f23805f6400) = 0
+mprotect(0x7f2380898000, 12288, PROT_READ) = 0
+mprotect(0x7f2380614000, 4096, PROT_READ) = 0
+mprotect(0x7f238061e000, 4096, PROT_READ) = 0
+mprotect(0x7f23806ae000, 4096, PROT_READ) = 0
+mprotect(0x7f23808c9000, 4096, PROT_READ) = 0
+mprotect(0x5641629aa000, 4096, PROT_READ) = 0
+mprotect(0x7f238090e000, 4096, PROT_READ) = 0
+munmap(0x7f23808cf000, 70363)           = 0
+set_tid_address(0x7f23805f66d0)         = 4137
+set_robust_list(0x7f23805f66e0, 24)     = 0
+rt_sigaction(SIGRTMIN, {sa_handler=0x7f23805febf0, sa_mask=[], sa_flags=SA_RESTORER|SA_SIGINFO, sa_restorer=0x7f238060c3c0}, NULL, 8) = 0
+rt_sigaction(SIGRT_1, {sa_handler=0x7f23805fec90, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART|SA_SIGINFO, sa_restorer=0x7f238060c3c0}, NULL, 8) = 0
+rt_sigprocmask(SIG_UNBLOCK, [RTMIN RT_1], NULL, 8) = 0
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+statfs("/sys/fs/selinux", 0x7fff7c1c4270) = -1 ENOENT (没有那个文件或目录)
+statfs("/selinux", 0x7fff7c1c4270)      = -1 ENOENT (没有那个文件或目录)
+brk(NULL)                               = 0x564162ef4000
+brk(0x564162f15000)                     = 0x564162f15000
+openat(AT_FDCWD, "/proc/filesystems", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0444, st_size=0, ...}) = 0
+read(3, "nodev\tsysfs\nnodev\ttmpfs\nnodev\tbd"..., 1024) = 378
+read(3, "", 1024)                       = 0
+close(3)                                = 0
+access("/etc/selinux/config", F_OK)     = -1 ENOENT (没有那个文件或目录)
+openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=14537584, ...}) = 0
+mmap(NULL, 14537584, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f237f817000
+close(3)                                = 0
+ioctl(1, TCGETS, {B38400 opost isig icanon echo ...}) = 0
+ioctl(1, TIOCGWINSZ, {ws_row=24, ws_col=80, ws_xpixel=0, ws_ypixel=0}) = 0
+openat(AT_FDCWD, ".", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+fstat(3, {st_mode=S_IFDIR|0775, st_size=4096, ...}) = 0
+getdents64(3, /* 11 entries */, 32768)  = 328
+getdents64(3, /* 0 entries */, 32768)   = 0
+close(3)                                = 0
+fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0), ...}) = 0
+write(1, "build  deps  examples  increment"..., 61build  deps  examples  incremental  redi.txt  shell  shell.d
+) = 61
+close(1)                                = 0
+close(2)                                = 0
+exit_group(0)                           = ?
++++ exited with 0 +++
+```
+
+以下分析shell中没有实现的三个系统调用：execve，fstat，mmap。
+
+通过查看Linux内置文档：
+
+```bash
+man 2 系统调用名称
+```
+
+得知上述三个系统调用的作用如下：
+
+###### 1、execve
+
+int execve(const char *pathname, char *const argv[], char *const envp[]);
+
+它的作用是运行另外一个指定的程序，程序由pathname指定。它会把新的程序加载到当前进程的内存空间中，并用新的堆，栈，段数据去覆盖原有进程的对应部分。因此它在此处的功能就是去执行”/usr/bin/“的ls程序，并传入["ls"]和0x7ffce82c0c50 /* 51 vars */作为参数。
+
+###### 2、fstat
+
+int fstat(int fd, struct stat *statbuf);
+
+它的作用是将文件的信息返回到statbuf所指的结构体中，要检索的文件信息由文件描述符fd指定。因此诸如fstat(3, {st_mode=S_IFDIR|0775, st_size=4096, ...})的系统调用的功能应该就是获得文件描述符”3“对应的文件信息。
+
+###### 3、mmap
+
+void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
+
+它为调用它的进程在虚拟地址中创建一个新的映射，将fd指定的文件映射到进程的虚拟内存空间，通过对这段内存的读取和修改，来实现对文件的读取和修改,而不需要再调用read，write等操作。 新映射的起始地址在addr中指定，如果为NULL，则由系统指定起始地址，，Length参数指定映射的长度(必须大于0)，prot描述了期待的映射保护模式，flags描述了映射区在更新时是否写回底层文件，及更新对其他进程是否可见等特性，offset规定了以文件开始处的偏移量，如果为0则代表从文件头开始映射。因此mmap(0x7f238060f000, 20480, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x18000)的意思应该是将文件描述符为3的文件，从偏移量为0x18000的位置映射到0x7f238060f000的虚拟地址，映射的文件长度为20480，映射区的保护模式是映射区只可被读取，映射区的特性是不写回原文件，并且必须映射到addr指定的地址（MAP_FIXED）。
